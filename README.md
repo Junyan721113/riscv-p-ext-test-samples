@@ -129,6 +129,7 @@ BUILD=`pwd`/build-nds64le-linux-glibc-v5d
 [OpenCV](https://github.com/opencv/opencv)
 
 **Do not use andes sysroot**
+
 **Use riscv sysroot instead**
 
 ```
