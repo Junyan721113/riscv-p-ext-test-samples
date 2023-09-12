@@ -6,7 +6,9 @@
 export RISCV=/opt/riscv
 ```
 
-## Toolchain
+## RISC-V P Extension v0.9.11
+
+### Toolchain
 
 [riscv-gnu-toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain)
 
@@ -23,7 +25,7 @@ sudo ./configure --prefix=/opt/riscv --with-arch=rv64imafd_zicsr_zifencei_zpn --
 sudo make linux -j4
 ```
 
-## Spike
+### Spike
 
 [riscv-isa-sim](https://github.com/riscv-software-src/riscv-isa-sim)
 
@@ -37,7 +39,7 @@ make -j4
 sudo make install
 ```
 
-## Proxy Kernel
+### Proxy Kernel
 
 [riscv-pk](https://github.com/riscv-software-src/riscv-pk)
 
@@ -50,24 +52,24 @@ make -j4
 sudo make install
 ```
 
-## Trick
+### Trick
 
-### rvp_intrinsic.h
+#### rvp_intrinsic.h
 
 ```shell
 //CREATE_RVP_INTRINSIC_EMPTY_ARGS (void, clrov)
 //CREATE_RVP_INTRINSIC_EMPTY_ARGS (uintXLEN_t, rdov)
 ```
 
-## Cross Compile
+### Cross Compile
 
-### VSCode CMake & CMake Tools Extensions
+#### VSCode CMake & CMake Tools Extensions
 
 ```shell
 cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_C_COMPILER:FILEPATH=/opt/riscv/bin/riscv64-unknown-linux-gnu-gcc -DCMAKE_CXX_COMPILER:FILEPATH=/opt/riscv/bin/riscv64-unknown-linux-gnu-g++ -S/home/mzero/workspace/rvtest -B/home/mzero/workspace/rvtest/build -G Ninja
 ```
 
-## Run
+### Run
 
 ```shell
 cd build
@@ -89,10 +91,45 @@ bbl loader
 ffffc0deffffbcde
 ```
 
-## Important
+### Important
 
 ```cpp
 //Little-Endian Style
 uint64_t intA = 0xFBCDAFCDFFCDABCD; 
 uint16x4_t vecA = {0xABCD, 0xFFCD, 0xAFCD, 0xFBCD};
+```
+
+## RISC-V P Extension v0.5.2
+
+### Toolchain
+
+[nds-gnu-toolchain](https://github.com/andestech/nds-gnu-toolchain)
+
+build_linux_toolchain.sh
+```shell
+TARGET=riscv64-linux
+PREFIX=/opt/andes
+ARCH=rv64imafdcxandes
+ABI=lp64d
+CPU=andes-25-series
+BUILD=`pwd`/build-nds64le-linux-glibc-v5d
+```
+
+### Qemu
+
+[qemu](https://github.com/andestech/qemu/tree/ast-v5_2_0-RVP-branch)
+
+```shell
+../configure --prefix=/opt/andes --target-list=riscv32-linux-user,riscv64-linux-user --disable-werror --static
+```
+
+### Run
+
+[OpenCV](https://github.com/opencv/opencv)
+
+**Do not use andes sysroot**
+**Use riscv sysroot instead**
+
+```
+qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
 ```
