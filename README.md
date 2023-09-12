@@ -132,9 +132,6 @@ BUILD=`pwd`/build-nds64le-linux-glibc-v5d
 cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHARED_LIBS=OFF --toolchain ../platforms/linux/riscv64-andes-gcc.toolchain.cmake ..
 ```
 
-**Do not use andes sysroot**
-
-**Use riscv sysroot instead**
 
 ```
 qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
