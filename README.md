@@ -112,6 +112,7 @@ PREFIX=/opt/andes
 ARCH=rv64imafdcxandes
 ABI=lp64d
 CPU=andes-25-series
+XLEN=64
 BUILD=`pwd`/build-nds64le-linux-glibc-v5d
 ```
 
