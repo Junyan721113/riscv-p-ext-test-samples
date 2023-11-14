@@ -54,6 +54,12 @@ qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
 imgproc module test
 ```
 qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_imgproc
+# imgwarp.rvp.cpp
+# --gtest_filter=*Affine*
+#
+# resize.rvp.cpp
+# --gtest_filter=*Resize*
+#
 # sumpixels.simd.hpp
 # --gtest_filter=*Integ*
 ```
