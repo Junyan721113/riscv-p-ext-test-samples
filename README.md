@@ -4,6 +4,7 @@
 
 ```shell
 export RISCV=/opt/andes
+export OPENCV_TEST_DATA_PATH=**path_to_opencv_extra**/testdata
 ```
 
 ## RISC-V P Extension v0.5.2
