@@ -3,8 +3,68 @@
 ## Note
 
 ```shell
-export RISCV=/opt/riscv
+export RISCV=/opt/andes
 ```
+
+## RISC-V P Extension v0.5.2
+
+### Toolchain
+
+[nds-gnu-toolchain](https://github.com/andestech/nds-gnu-toolchain)
+
+build_linux_toolchain.sh
+```shell
+TARGET=riscv64-linux
+PREFIX=/opt/andes
+ARCH=rv64imafdcxandes
+ABI=lp64d
+CPU=andes-25-series
+XLEN=64
+BUILD=`pwd`/build-nds64le-linux-glibc-v5d
+```
+
+### Qemu
+
+[qemu](https://github.com/andestech/qemu/tree/ast-v5_2_0-RVP-branch)
+
+```shell
+../configure --prefix=/opt/andes --target-list=riscv32-linux-user,riscv64-linux-user --disable-werror --static
+```
+
+### OpenCV Test
+
+[OpenCV](https://github.com/opencv/opencv)
+
+```shell
+cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHARED_LIBS=OFF --toolchain ../platforms/linux/riscv64-andes-gcc.toolchain.cmake ..
+```
+
+### Test Tips
+
+dnn module test
+```
+qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
+# int8layers/layers_common_simd.hpp
+# --gtest_filter=*Int8*
+# --gtest_filter=*Conv*
+# --gtest_filter=*Gemm*
+```
+
+imgproc module test
+```
+qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_imgproc
+# sumpixels.simd.hpp
+# --gtest_filter=*Integ*
+```
+
+features2d module test
+```
+qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_features2d
+# fast.rvp.cpp
+# --gtest_filter=*FAST*
+# --gtest_filter=*ORB*
+```
+
 
 ## RISC-V P Extension v0.9.11
 
@@ -97,42 +157,4 @@ ffffc0deffffbcde
 //Little-Endian Style
 uint64_t intA = 0xFBCDAFCDFFCDABCD; 
 uint16x4_t vecA = {0xABCD, 0xFFCD, 0xAFCD, 0xFBCD};
-```
-
-## RISC-V P Extension v0.5.2
-
-### Toolchain
-
-[nds-gnu-toolchain](https://github.com/andestech/nds-gnu-toolchain)
-
-build_linux_toolchain.sh
-```shell
-TARGET=riscv64-linux
-PREFIX=/opt/andes
-ARCH=rv64imafdcxandes
-ABI=lp64d
-CPU=andes-25-series
-XLEN=64
-BUILD=`pwd`/build-nds64le-linux-glibc-v5d
-```
-
-### Qemu
-
-[qemu](https://github.com/andestech/qemu/tree/ast-v5_2_0-RVP-branch)
-
-```shell
-../configure --prefix=/opt/andes --target-list=riscv32-linux-user,riscv64-linux-user --disable-werror --static
-```
-
-### Run
-
-[OpenCV](https://github.com/opencv/opencv)
-
-```shell
-cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHARED_LIBS=OFF --toolchain ../platforms/linux/riscv64-andes-gcc.toolchain.cmake ..
-```
-
-
-```
-qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
 ```

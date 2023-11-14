@@ -1,13 +1,15 @@
-#include <rvp_intrinsic.h>
+#include <nds_intrinsic.h>
 #include <stdio.h>
 #include <stdint.h>
 
 using namespace std;
 
 int main() {
-    uint16x4_t a = {0xABCD, 0xFFCD, 0xAFCD, 0xFBCD}; 
-    uint16x4_t b = {0x1111, 0x1111, 0x1111, 0x1111};
-    uint16x4_t c = __rv_v_ukadd16(a, b);
-    printf("%lx\n", c);
+    int8x8_t a = (int8x8_t)0x8801FFFE7F008080L; 
+    uint8x8_t const80 = (uint8x8_t)0L + 0x80;
+    uint8x8_t b = (uint8x8_t)a;
+    uint8x8_t c = __rv__v_clo8((uint8x8_t)a);
+    uint8x8_t d = a - const80;
+    printf("%016lx %016lx %016lx %016lx\n", a, b, c, d);
     return 0;
 }
