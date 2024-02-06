@@ -37,7 +37,7 @@ BUILD=`pwd`/build-nds64le-linux-glibc-v5d
 [OpenCV](https://github.com/opencv/opencv)
 
 ```shell
-cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHARED_LIBS=OFF --toolchain ../platforms/linux/riscv64-andes-gcc.toolchain.cmake ..
+cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHARED_LIBS=OFF -D CMAKE_TOOLCHAIN_FILE=../platforms/linux/riscv64-andes-gcc.toolchain.cmake ..
 ```
 
 ### Test Tips
