@@ -13,6 +13,8 @@ export OPENCV_TEST_DATA_PATH=**path_to_opencv_extra**/testdata
 
 [nds-gnu-toolchain](https://github.com/andestech/nds-gnu-toolchain)
 
+Prebuilt Releases: [Andes-Development-Kit](https://github.com/andestech/Andes-Development-Kit/releases)
+
 build_linux_toolchain.sh
 ```shell
 TARGET=riscv64-linux
