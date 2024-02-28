@@ -2,6 +2,7 @@
 
 ## Note
 
+*shell*
 ```shell
 export RISCV=/opt/andes
 export OPENCV_TEST_DATA_PATH=**path_to_opencv_extra**/testdata
@@ -17,7 +18,7 @@ Suggested Version: v5_1_1
 
 Prebuilt Releases: [Andes-Development-Kit](https://github.com/andestech/Andes-Development-Kit/releases)
 
-build_linux_toolchain.sh
+*build_linux_toolchain.sh*
 ```shell
 TARGET=riscv64-linux
 PREFIX=/opt/andes
@@ -32,14 +33,33 @@ BUILD=`pwd`/build-nds64le-linux-glibc-v5d
 
 [qemu](https://github.com/andestech/qemu/tree/ast-v5_2_0-RVP-branch)
 
+*shell*
 ```shell
 ../configure --prefix=/opt/andes --target-list=riscv32-linux-user,riscv64-linux-user --disable-werror --static
 ```
+
+### Board
+
+Use the installed toolchain's sysroot, or the prebuilt releases above.
+
+*/etc/ld.so.conf*
+```shell
+include /etc/ld.so.conf.d/*.conf
+/path/to/the/sysroot/library
+```
+
+*shell*
+```shell
+ldconfig -v
+```
+
+Then the sysroot library should appear in the result.
 
 ### OpenCV Test
 
 [OpenCV](https://github.com/opencv/opencv)
 
+*shell*
 ```shell
 cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHARED_LIBS=OFF -D CMAKE_TOOLCHAIN_FILE=../platforms/linux/riscv64-andes-gcc.toolchain.cmake ..
 ```
@@ -47,6 +67,7 @@ cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHAR
 ### Test Tips
 
 dnn module test
+*shell*
 ```
 qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
 # int8layers/layers_common_simd.hpp
@@ -56,6 +77,7 @@ qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
 ```
 
 imgproc module test
+*shell*
 ```
 qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_imgproc
 # imgwarp.rvp.cpp
@@ -69,6 +91,7 @@ qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_imgproc
 ```
 
 features2d module test
+*shell*
 ```
 qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_features2d
 # fast.rvp.cpp
@@ -87,6 +110,7 @@ qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_features2d
 
 [riscv-binutils-gdb](https://github.com/plctlab/riscv-binutils-gdb)
 
+*shell*
 ```shell
 git clone https://github.com/riscv-collab/riscv-gnu-toolchain.git
 git clone https://github.com/plctlab/riscv-gcc.git -b riscv-gcc-p-ext
@@ -100,6 +124,7 @@ sudo make linux -j4
 
 [riscv-isa-sim](https://github.com/riscv-software-src/riscv-isa-sim)
 
+*shell*
 ```shell
 git clone https://github.com/riscv-software-src/riscv-isa-sim.git
 cd riscv-isa-sim
@@ -114,6 +139,7 @@ sudo make install
 
 [riscv-pk](https://github.com/riscv-software-src/riscv-pk)
 
+*shell*
 ```shell
 git clone https://github.com/riscv-software-src/riscv-pk.git
 cd riscv-pk
@@ -125,8 +151,7 @@ sudo make install
 
 ### Trick
 
-#### rvp_intrinsic.h
-
+*rvp_intrinsic.h*
 ```shell
 //CREATE_RVP_INTRINSIC_EMPTY_ARGS (void, clrov)
 //CREATE_RVP_INTRINSIC_EMPTY_ARGS (uintXLEN_t, rdov)
@@ -136,12 +161,14 @@ sudo make install
 
 #### VSCode CMake & CMake Tools Extensions
 
+*shell*
 ```shell
 cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_C_COMPILER:FILEPATH=/opt/riscv/bin/riscv64-unknown-linux-gnu-gcc -DCMAKE_CXX_COMPILER:FILEPATH=/opt/riscv/bin/riscv64-unknown-linux-gnu-g++ -S/home/mzero/workspace/rvtest -B/home/mzero/workspace/rvtest/build -G Ninja
 ```
 
 ### Run
 
+*shell*
 ```shell
 cd build
 
@@ -164,6 +191,7 @@ ffffc0deffffbcde
 
 ### Important
 
+*cpp file*
 ```cpp
 //Little-Endian Style
 uint64_t intA = 0xFBCDAFCDFFCDABCD; 
