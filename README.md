@@ -1,11 +1,21 @@
 # RISC-V P Extension Test Samples
 
-## Note
+## Important
 
 *shell*
 ```shell
 export RISCV=/opt/andes
 export OPENCV_TEST_DATA_PATH=**path_to_opencv_extra**/testdata
+```
+
+*extra c & cxx flags*
+```shell
+-mext-dsp
+```
+
+*extra exe & shared linker flags*
+```shell
+-Wl,-Ttext-segment=0x50000
 ```
 
 ## RISC-V P Extension v0.5.2
