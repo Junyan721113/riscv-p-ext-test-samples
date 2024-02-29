@@ -28,7 +28,7 @@ Suggested Version: v5_1_1
 
 Prebuilt Releases: [Andes-Development-Kit](https://github.com/andestech/Andes-Development-Kit/releases)
 
-*build_linux_toolchain.sh*
+*./build_linux_toolchain.sh*
 ```shell
 TARGET=riscv64-linux
 PREFIX=/opt/andes
@@ -43,7 +43,7 @@ BUILD=`pwd`/build-nds64le-linux-glibc-v5d
 
 [qemu](https://github.com/andestech/qemu/tree/ast-v5_2_0-RVP-branch)
 
-*shell*
+*shell ./build*
 ```shell
 ../configure --prefix=/opt/andes --target-list=riscv32-linux-user,riscv64-linux-user --disable-werror --static
 ```
@@ -69,15 +69,16 @@ Then the sysroot library should appear in the result.
 
 [OpenCV](https://github.com/opencv/opencv)
 
-*shell*
+*shell ./build*
 ```shell
 cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHARED_LIBS=OFF -D CMAKE_TOOLCHAIN_FILE=../platforms/linux/riscv64-andes-gcc.toolchain.cmake ..
 ```
 
-### Test Tips
+#### Test Tips
 
 dnn module test
-*shell*
+
+*shell ./build/bin*
 ```
 qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
 # int8layers/layers_common_simd.hpp
@@ -87,7 +88,8 @@ qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
 ```
 
 imgproc module test
-*shell*
+
+*shell ./build/bin*
 ```
 qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_imgproc
 # imgwarp.rvp.cpp
@@ -101,7 +103,8 @@ qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_imgproc
 ```
 
 features2d module test
-*shell*
+
+*shell ./build/bin*
 ```
 qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_features2d
 # fast.rvp.cpp
@@ -109,6 +112,18 @@ qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_features2d
 # --gtest_filter=*ORB*
 ```
 
+### 7zip
+
+*./CPP/7zip/Bundles/Alone2/makefile.gcc*
+```makefile
+CC = riscv64-linux-gcc -mext-dsp -Wl,-Ttext-segment=0x50000
+CXX = riscv64-linux-g++ -mext-dsp -Wl,-Ttext-segment=0x50000
+```
+
+*shell ./CPP/7zip/Bundles/Alone2*
+```shell
+make -j -f makefile.gcc
+```
 
 ## RISC-V P Extension v0.9.11
 
@@ -171,7 +186,7 @@ sudo make install
 
 #### VSCode CMake & CMake Tools Extensions
 
-*shell*
+*config*
 ```shell
 cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_C_COMPILER:FILEPATH=/opt/riscv/bin/riscv64-unknown-linux-gnu-gcc -DCMAKE_CXX_COMPILER:FILEPATH=/opt/riscv/bin/riscv64-unknown-linux-gnu-g++ -S/home/mzero/workspace/rvtest -B/home/mzero/workspace/rvtest/build -G Ninja
 ```
@@ -201,7 +216,7 @@ ffffc0deffffbcde
 
 ### Important
 
-*cpp file*
+*cpp code*
 ```cpp
 //Little-Endian Style
 uint64_t intA = 0xFBCDAFCDFFCDABCD; 
