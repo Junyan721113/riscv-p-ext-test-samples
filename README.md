@@ -80,7 +80,7 @@ dnn module test
 
 *shell ./build/bin*
 ```
-qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_dnn
+qemu-riscv64 -cpu andes-ax25 -L /opt/andes/sysroot opencv_test_dnn
 # int8layers/layers_common_simd.hpp
 # --gtest_filter=*Int8*
 # --gtest_filter=*Conv*
@@ -91,7 +91,7 @@ imgproc module test
 
 *shell ./build/bin*
 ```
-qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_imgproc
+qemu-riscv64 -cpu andes-ax25 -L /opt/andes/sysroot opencv_test_imgproc
 # imgwarp.rvp.cpp
 # --gtest_filter=*Affine*
 #
@@ -106,7 +106,7 @@ features2d module test
 
 *shell ./build/bin*
 ```
-qemu-riscv64 -cpu andes-ax25 -L /opt/riscv/sysroot opencv_test_features2d
+qemu-riscv64 -cpu andes-ax25 -L /opt/andes/sysroot opencv_test_features2d
 # fast.rvp.cpp
 # --gtest_filter=*FAST*
 # --gtest_filter=*ORB*
