@@ -12,17 +12,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ARG USER=builder
 ARG UID=1000
 ARG GID=1000
-RUN groupadd -g ${GID} ${USER} \
-  && useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USER}
+RUN if ! getent group ${GID} >/dev/null; then groupadd -g ${GID} ${USER}; fi \
+  && if id -u ${USER} >/dev/null 2>&1; then true; \
+     elif getent passwd ${UID} >/dev/null; then useradd -m -g ${GID} -s /bin/bash ${USER}; \
+     else useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USER}; fi
 
 ENV WORK=/work/ndsrvp-opencv-pr28915
 ENV RISCV=/work/ndsrvp-opencv-pr28915/opt/andes
 ENV PATH=/work/ndsrvp-opencv-pr28915/opt/andes/bin:${PATH}
 
-RUN mkdir -p /opt/ndsrvp-scripts /work && chown -R ${USER}:${USER} /work /opt/ndsrvp-scripts
-COPY --chown=${USER}:${USER} build-toolchain.sh build-opencv.sh run-imgproc-qemu.sh \
+RUN mkdir -p /opt/ndsrvp-scripts /work && chown -R ${USER}:${GID} /work /opt/ndsrvp-scripts
+COPY --chown=${USER}:${GID} build-toolchain.sh build-opencv.sh run-imgproc-qemu.sh \
   /opt/ndsrvp-scripts/
-COPY --chown=${USER}:${USER} patches /opt/ndsrvp-scripts/patches
+COPY --chown=${USER}:${GID} patches /opt/ndsrvp-scripts/patches
 RUN chmod +x /opt/ndsrvp-scripts/*.sh
 
 USER ${USER}
