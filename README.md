@@ -22,7 +22,7 @@ export OPENCV_TEST_DATA_PATH=**path_to_opencv_extra**/testdata
 
 ### Toolchain
 
-Suggested Version: v5_1_1
+Suggested Version: [v5_1_1 (`ast-v5_1_1-release-v5`)](https://github.com/andestech/nds-gnu-toolchain/tree/ast-v5_1_1-release-v5)
 
 [nds-gnu-toolchain](https://github.com/andestech/nds-gnu-toolchain)
 
@@ -39,9 +39,13 @@ XLEN=64
 BUILD=`pwd`/build-nds64le-linux-glibc-v5d
 ```
 
-### Qemu
+### QEMU
 
-[qemu](https://github.com/andestech/qemu/tree/ast-v5_2_0-RVP-branch)
+[qemu `ast-v5_4_2-release`](https://github.com/andestech/qemu/tree/ast-v5_4_2-release)
+
+The older `ast-v5_2_0-RVP-branch` link may no longer be available from
+upstream. `ast-v5_4_2-release` is the currently tested branch with
+`andes-ax45` linux-user support.
 
 *shell ./build*
 ```shell
@@ -69,9 +73,20 @@ Then the sysroot library should appear in the result.
 
 [OpenCV](https://github.com/opencv/opencv)
 
+For the current OpenCV NDSRVP QEMU/Docker recipe, see
+[opencv-ndsrvp-qemu](opencv-ndsrvp-qemu/).
+
 *shell ./build*
 ```shell
-cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/opt/andes -D BUILD_SHARED_LIBS=OFF -D CMAKE_TOOLCHAIN_FILE=../platforms/linux/riscv64-andes-gcc.toolchain.cmake -D CMAKE_CROSSCOMPILING=../platforms/linux/riscv64-andes-gcc.toolchain.cmake ..
+cmake -D CMAKE_BUILD_TYPE=Release \
+      -D CMAKE_INSTALL_PREFIX=/opt/andes \
+      -D BUILD_SHARED_LIBS=OFF \
+      -D BUILD_TESTS=ON \
+      -D BUILD_LIST=core,imgproc,ts \
+      -D WITH_NDSRVP=ON \
+      -D WITH_HAL_RVV=OFF \
+      -D CMAKE_TOOLCHAIN_FILE=../platforms/linux/riscv64-andes-gcc.toolchain.cmake \
+      ..
 ```
 
 #### Test Tips
@@ -91,7 +106,7 @@ imgproc module test
 
 *shell ./build/bin*
 ```
-qemu-riscv64 -cpu andes-ax25 -L /opt/andes/sysroot opencv_test_imgproc
+qemu-riscv64 -cpu andes-ax45 -L /opt/andes/sysroot opencv_test_imgproc
 # imgwarp.rvp.cpp
 # --gtest_filter=*Affine*
 #
